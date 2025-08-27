@@ -75,7 +75,29 @@ spec:
       steps:
       - task:
           name: kostis-promo-process
-        as: promo-process                 
+        as: promo-process      
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: load-gpu
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      stages:
+      - staging-us
+      - staging-eu
+      - staging-asia 
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process                    
 ---
 apiVersion: kargo.akuity.io/v1alpha1
 kind: Stage
@@ -89,10 +111,50 @@ spec:
       name: kostis-demo
     sources:
       stages:
-      - staging-us
+      - load-gpu
   promotionTemplate:
     spec:
       steps:
       - task:
           name: kostis-promo-process
         as: promo-process
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod-asia
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      stages:
+      - load-gpu      
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod-eu
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      stages:
+      - load-gpu
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process                
