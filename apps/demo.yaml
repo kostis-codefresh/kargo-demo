@@ -20,7 +20,7 @@ spec:
       source:
         repoURL: https://github.com/kostis-codefresh/kargo-demo.git
         targetRevision: stage/{{stage}}
-        path: .
+        path: original-demo
       destination:
         server: https://kubernetes.default.svc
         namespace: kargo-demo-{{stage}}
