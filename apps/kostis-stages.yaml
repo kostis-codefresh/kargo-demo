@@ -1,0 +1,98 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: qa
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      direct: true
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: staging-us
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      stages:
+      - qa
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: staging-eu
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      stages:
+      - qa
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: staging-asia
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      stages:
+      - qa
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process                 
+---
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Stage
+metadata:
+  name: prod-us
+  namespace: kostis-demo
+spec:
+  requestedFreight:
+  - origin:
+      kind: Warehouse
+      name: kostis-demo
+    sources:
+      stages:
+      - staging-us
+  promotionTemplate:
+    spec:
+      steps:
+      - task:
+          name: kostis-promo-process
+        as: promo-process
