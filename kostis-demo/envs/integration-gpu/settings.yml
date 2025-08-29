@@ -12,7 +12,7 @@ spec:
         - name: UI_THEME
           value: "light"
         - name: CACHE_SIZE
-          value: "1024kb"
+          value: "4096kb"
         - name: PAGE_LIMIT
           value: "50"
         - name: SORTING
