@@ -1,0 +1,11 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: Warehouse
+metadata:
+  name: kostis-demo
+  namespace: kostis-demo
+spec:
+  subscriptions:
+  - git:
+      repoURL: http://github.com/kostis-codefresh/kargo-demo.git
+      includePaths:
+      - kostis-demo

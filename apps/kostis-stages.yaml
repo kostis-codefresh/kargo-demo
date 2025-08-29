@@ -10,6 +10,9 @@ spec:
       name: kostis-demo
     sources:
       direct: true
+  verification:
+    analysisTemplates:
+    - name: count-interval-example     
   promotionTemplate:
     spec:
       steps:
@@ -68,6 +71,7 @@ spec:
       kind: Warehouse
       name: kostis-demo
     sources:
+      direct: true    
       stages:
       - qa
   promotionTemplate:
@@ -88,10 +92,14 @@ spec:
       kind: Warehouse
       name: kostis-demo
     sources:
+      direct: true
       stages:
       - staging-us
       - staging-eu
-      - staging-asia 
+      - staging-asia
+  verification:
+    analysisTemplates:
+    - name: count-interval-example        
   promotionTemplate:
     spec:
       steps:

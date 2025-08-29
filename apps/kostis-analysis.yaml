@@ -1,0 +1,15 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AnalysisTemplate
+metadata:
+  name: count-interval-example
+  namespace: kostis-demo  
+spec:
+  metrics:
+  - name: test
+    # Number of measurements to take
+    count: 2
+    # Time interval between each measurement as a duration string
+    interval: 1m
+    provider:
+      web:
+        url: https://pokeapi.co/api/v2/pokemon/pikachu

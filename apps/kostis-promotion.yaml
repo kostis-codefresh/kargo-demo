@@ -1,0 +1,42 @@
+apiVersion: kargo.akuity.io/v1alpha1
+kind: PromotionTask
+metadata:
+  name: kostis-promo-process
+  namespace: kostis-demo
+spec:
+  vars:
+  - name: gitopsRepo
+    value: "https://github.com/kostis-codefresh/kargo-demo.git"
+  steps:
+  - uses: git-clone
+    config:
+      repoURL: \${{ vars.gitopsRepo }}
+      checkout:
+      - branch: main
+        path: ./src
+      - branch: kostis/stage/\${{ ctx.stage }}
+        create: true
+        path: ./out
+  - uses: git-clear
+    config:
+      path: ./out
+  - uses: kustomize-build
+    as: update
+    config:
+      path: ./src/kostis-demo/envs/\${{ ctx.stage }}
+      outPath: ./out
+  - uses: git-commit
+    as: commit
+    config:
+      path: ./out
+      message: \${{ task.outputs.update.commitMessage }}
+  - uses: git-push
+    config:
+      path: ./out
+  - uses: argocd-update
+    config:
+      apps:
+      - name: kostis-demo-\${{ ctx.stage }}
+        sources:
+        - repoURL: \${{ vars.gitopsRepo }}
+          desiredRevision: \${{ task.outputs.commit.commit }}
