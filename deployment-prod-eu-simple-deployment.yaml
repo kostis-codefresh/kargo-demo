@@ -5,7 +5,7 @@ metadata:
     codefresh.io/app: simple-go-app
   name: prod-eu-simple-deployment
 spec:
-  replicas: 8
+  replicas: 6
   selector:
     matchLabels:
       app: trivial-go-web-app
